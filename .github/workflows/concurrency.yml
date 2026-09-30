@@ -2,9 +2,18 @@ name: Concurrency Demo
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment"
+        required: true
+        default: staging
+        type: choice
+        options:
+          - staging
+          - production
 
 concurrency:
-  group: concurrency-demo
+  group: concurrency-${{ inputs.environment }}
   cancel-in-progress: true
 
 jobs:
@@ -12,8 +21,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Start test
+      - name: Show environment
+        run: |
+          echo "Environment: ${{ inputs.environment }}"
+          echo "Concurrency group: concurrency-${{ inputs.environment }}"
+
+      - name: Run test
         run: |
           echo "Test started"
-          sleep 30
+          sleep 60
           echo "Test finished"
