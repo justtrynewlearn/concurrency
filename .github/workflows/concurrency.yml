@@ -1,0 +1,18 @@
+name: Concurrency Demo
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: concurrency-demo
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Start test
+        run: |
+          echo "Test started"
+          sleep 30
+          echo "Test finished"
